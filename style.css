@@ -25,7 +25,89 @@ body {
 }
 
 #numbersTable td {
-    width: 100px;
-    height: 100px;
+    width: calc((100vh - 200px) / 5);
+    height: calc((100vh - 200px) / 5);
     border: 1px solid black;
+    position: relative;
+}
+
+.numBtn {
+    width: 100%;
+    height: 100%;
+    font-family: ABeeZee;
+    border: none;
+    background-color: white;
+    font-size: 25px;
+}
+
+#playerBtn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+
+    border-radius: 10000px;
+    border: 3px solid black;
+    font-size: 25px;
+    background-color: lightgrey;
+    transition: transform 200ms ease-in-out;
+
+    z-index: 2;
+}
+
+
+#scoreHUD {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    
+    width: 250px;
+    height: 100%;
+
+    border-right: 3px solid black;
+}
+
+#scoreText {
+    font-size: 25px;
+    margin-left: 30px;
+}
+
+#cashText {
+    font-size: 25px;
+    margin-left: 30px;
+    margin-top: -20px;
+}
+
+#statsTextHeader {
+    font-size: 25px;
+    margin-left: 30px;
+    margin-top: 200px;
+}
+
+#clearsText {
+    font-size: 16px;
+    margin-left: 30px;
+}
+
+#playtimeText {
+    font-size: 16px;
+    margin-left: 30px;
+    margin-top: -10px;
+}
+
+#sideButtonsDisplay {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    
+    width: 250px;
+    height: 100%;
+
+    border-left: 3px solid black;
+}
+
+#sideButtonsDiv {
+
 }
