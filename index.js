@@ -188,6 +188,7 @@ class ShopItem {
         if (this.canBuy(gameObj)) {
             gameObj.money -= unabbreviateNum(this.tiers[this.lvl][0]);
             this.lvl += 1;
+            document.getElementById("upgradeSfx").play();
         }
     }
 }
