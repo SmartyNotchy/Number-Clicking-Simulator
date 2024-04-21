@@ -8,6 +8,6 @@ Gameplay Features:
 - Did I mention that there's clicking numbers?
 - No like seriously clicking numbers is literally the only gameplay why the hell would you play this-
 
-Play now at [TODO: INSERT LINK HERE]
+Play now at https://smartynotchy.github.io/Number-Clicking-Simulator/
 
 ![Invigorating Gameplay](assets/gameplay.png)
