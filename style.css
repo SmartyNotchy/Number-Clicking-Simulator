@@ -52,10 +52,11 @@ body {
     border: 3px solid black;
     font-size: 25px;
     background-color: lightgrey;
-    transition: transform 200ms ease-in-out;
+    transition: transform 2000ms ease-in-out;
 
     z-index: 2;
 }
+
 
 
 #scoreHUD {
@@ -97,17 +98,80 @@ body {
     margin-top: -10px;
 }
 
-#sideButtonsDisplay {
+#shopDisplay {
     position: absolute;
     top: 0px;
     right: 0px;
     
-    width: 250px;
+    width: 300px;
     height: 100%;
 
     border-left: 3px solid black;
 }
 
-#sideButtonsDiv {
-
+.shopRow {
+    width: 100%;
+    border-bottom: 2px dotted black;
+    display: none;
 }
+
+.shopItemName {
+    font-size: 20px;
+    margin-left: 20px;
+}
+
+.shopItemDesc {
+    font-size: 16px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: -10px;
+}
+
+.shopItemBtn {
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+
+    border: none;
+    border-radius: 10000px;
+    height: 30px;
+
+    font-size: 18px;
+    font-family: ABeeZee;
+    
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btnAvailable {
+    background-color: #3399ff;
+    color: white;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btnAvailable:hover {
+    background-color: #4da6ff;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btnAvailable:active {
+    background-color: #0080ff;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btnMax {
+    background-color: #33cc33;
+    color: white;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btnMax:hover {
+    background-color: #47d147;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.btnMax:active {
+    background-color: #009933;
+    transition: background-color 0.2s, color 0.2s;
+}
+

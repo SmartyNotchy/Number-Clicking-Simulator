@@ -75,23 +75,61 @@ function shuffle(array) {
 
 
 
+class ShopItem {
+    constructor(lvl, name, tiers, desc, maxDesc) {
+        this.lvl = lvl;
+        this.name = name;
+        this.tiers = tiers;
+        this.desc = desc;
+        this.maxDesc = maxDesc;
+    }
 
-const PLAYER_SPEED_SHOP = [
-    // id, price, button speed
-    [0, "10", 2500],
-    [1, "100", 2250],
-    [2, "1a", 2000],
-    [3, "1b", 1900],
-    [4, "1c", 1800],
-    [5, "1d", 1700],
-    [6, "1e", 1600],
-    [7, "1f", 1500],
-    [8, "1g", 1400],
-    [9, "1h", 1300],
-    [10, "1i", 1200],
-    [11, "1j", 1100],
-    [12, "1k", 1000]
-]
+    updateRow(gameObj) {
+        if (unabbreviateNum(this.tiers[0][0]) / gameObj.score <= 1000000000n) {
+            document.getElementById("shop" + this.name.replace(/ /g, "-") + "Row").style.display = "inline-block";
+        }
+        document.getElementById("shop" + this.name.replace(/ /g, "-") + "Name").innerHTML = this.getName();
+        document.getElementById("shop" + this.name.replace(/ /g, "-") + "Desc").innerHTML = this.getDesc();
+        let btn = document.getElementById("shop" + this.name.replace(/ /g, "-") + "Btn")
+        btn.classList.remove("btnAvailable");
+        if ((this.lvl + 1) == this.tiers.length) {
+            btn.innerHTML = "MAX LVL";
+            btn.classList.add("btnMax");
+        } else {
+            btn.innerHTML = "$" + this.tiers[this.lvl][0];
+            if (this.canBuy(gameObj)) {
+                btn.classList.add("btnAvailable");
+            }
+        }
+    }
+
+    getEffect() {
+        return this.tiers[this.lvl][1];
+    }
+
+    getName() {
+        return this.name + " | Lv. " + this.lvl;
+    }
+
+    getDesc() {
+        if ((this.lvl + 1) == this.tiers.length) {
+            return this.maxDesc.replace("${0}", this.tiers[this.lvl][1]);
+        } else {
+            return this.desc.replace("${0}", this.tiers[this.lvl][1]).replace("${1}", this.tiers[this.lvl+1][1]);
+        }
+    }
+
+    canBuy(gameObj) {
+        return ((this.lvl + 1) < this.tiers.length) && (unabbreviateNum(this.tiers[this.lvl][0]) <= gameObj.money);
+    }
+
+    buy(gameObj) {
+        if (this.canBuy(gameObj)) {
+            gameObj.money -= unabbreviateNum(this.tiers[this.lvl][0]);
+            this.lvl += 1;
+        }
+    }
+}
 
 class GameManager {
     constructor() {
@@ -104,35 +142,49 @@ class GameManager {
             1n, 1n, 1n, 1n, 1n,
             1n, 1n, 1n, 1n, 1n
         ];
+        
+        this.lastClick = 0;
+        this.loc = 12;
+
+        this.btnSpeed = 2000;
+        this.clearBonus = 0n;
+        this.shop = [
+            new ShopItem(0, "Speed",
+                [
+                    ["8", 2],
+                    ["1000", 1.5],
+                    ["10b", 1.45],
+                    ["10c", 1.4],
+                    ["10d", 1.35],
+                    ["10e", 1.3],
+                    [undefined, 1]
+                ],
+            "Traveling between cells takes<br>${0} -> ${1} s",
+            "Traveling between cells takes ${0} s"),
+
+            new ShopItem(0, "Clear Bonus",
+                [
+                    ["12", 0n],
+                    [undefined, 10n],
+                ],
+            "Gain ${0}% -> ${1}% of your score when clearing a board",
+            "Gain ${0}% of your score when clearing a board")
+        ]
     }
 
     loadDataCookies() {
         console.log("Data Not Found; Starting new game...");
-
-        this.score = 2n;
-        this.money = 0n;
-        this.grid = [
-            1n, 1n, 1n, 1n, 1n,
-            1n, 1n, 1n, 1n, 1n,
-            1n, 1n, 0n, 1n, 1n,
-            1n, 1n, 1n, 1n, 1n,
-            1n, 1n, 1n, 1n, 1n
-        ];
-
-        this.lastClick = 0;
-        this.loc = 12;
-
-        this.btnSpeed = 200;
-        this.upgrades = [
-            0,
-            0,
-            0,
-            0,
-        ]
     }
 
     saveDataCookies() {
 
+    }
+
+    applyShop() {
+        this.btnSpeed = this.shop[0].getEffect() * 1000;
+        document.getElementById("playerBtn").style.transition = "transform " + this.btnSpeed + "ms ease-in-out";
+
+        this.clearBonus = this.shop[1].getEffect();
     }
 
     processClick(id) {
@@ -155,15 +207,22 @@ class GameManager {
     consumeCell(id) {
         if (this.grid[id] < this.score) {
             this.score += this.grid[id];
+            this.money += this.grid[id];
             this.grid[id] = 0n;
             this.updateBoard();
             this.updateHUD();
+            this.updateShop();
             this.loc = id;
 
             if (this.isClear()) {
+                // Board Clear!
                 this.lastClick = Date.now();
                 moveToCell(2, 2);
                 this.loc = 12;
+
+                let temp = this.score * this.clearBonus;
+                temp = temp / 100n;
+                this.score += temp;
                 setTimeout(function() {
                     GAME_MANAGER.generateBoard();
                 }, this.btnSpeed);
@@ -200,6 +259,7 @@ class GameManager {
         this.grid = values;
         this.updateBoard();
         this.updateHUD();
+        this.updateShop();
     }
 
     updateBoard() {
@@ -215,24 +275,32 @@ class GameManager {
     }
 
     updateShop() {
-
+        for (let idx = 0; idx < this.shop.length; idx++) {
+            this.shop[idx].updateRow(this);
+        }
     }
 
     buyShop(id) {
-
+        this.shop[id].buy(this);
+        this.updateShop();
+        this.updateHUD();
+        this.updateBoard();
+        this.applyShop();
     }
 }
 
 var GAME_MANAGER = new GameManager();
 
-function processClick(id) {
-    GAME_MANAGER.processClick(id);
-}
-
 for (let idx = 1; idx <= 25; idx++) {
-    document.getElementById("numBtn" + idx).onclick = (() => { processClick(idx-1) });
+    document.getElementById("numBtn" + idx).onclick = (() => { GAME_MANAGER.processClick(idx - 1); });
 }
 
+for (let idx = 0; idx < GAME_MANAGER.shop.length; idx++) {
+    let shopObj = GAME_MANAGER.shop[idx];
+    document.getElementById("shop" + shopObj.name.replace(/ /g, "-") + "Btn").onclick = (() => { GAME_MANAGER.buyShop(idx) });
+}
 GAME_MANAGER.loadDataCookies();
 GAME_MANAGER.updateBoard();
 GAME_MANAGER.updateHUD();
+GAME_MANAGER.updateShop();
+GAME_MANAGER.applyShop();
