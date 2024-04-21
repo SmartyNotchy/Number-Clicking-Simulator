@@ -18,7 +18,7 @@
 
   </head>
   <body>
-    <main>
+    <main>          
         <div id="numberClickingDiv">
             <table id="numbersTable">
                 <tbody>
@@ -84,7 +84,11 @@
                 <div class="comboRect" id="cmb10"></div>
             </div>
             <p id="playtimeHeader">Time Since Start:</p>
-            <p id="playtimeText">0h 0m 0s</p>
+            <p id="playtimeText">__h __m __s</p>
+
+            <button id="resetButton" onclick="promptReset()">
+                Reset All Data
+            </button>
         </div>
 
         <div id="shopDisplay">
@@ -111,58 +115,48 @@
                 <p class="shopItemDesc" id="shopAccumulatorDesc">...</p>
                 <button class="shopItemBtn" id="shopAccumulatorBtn">$...</button>
             </div>
-            <!--
-        
 
-            <div class="shopRow">
-                <p class="shopItemName">Accumulator | Lv. 1</p>
-                <p class="shopItemPrice">$10</p>
-                <p class="shopItemDesc">Gain 0 -> 1% of your score every second</p>
+            <div class="shopRow" id="shopTo-The-MoonRow">
+                <p class="shopItemName" id="shopTo-The-MoonName">To The Moon | Lv. 0</p>
+                <p class="shopItemDesc" id="shopTo-The-MoonDesc">...</p>
+                <button class="shopItemBtn" id="shopTo-The-MoonBtn">$...</button>
             </div>
 
-            <div class="shopRow">
-                <p class="shopItemName">To The Moon | Lv. 1</p>
-                <p class="shopItemPrice">$10</p>
-                <p class="shopItemDesc">Cells grant 0% -> 10% more cash</p>
+            <div class="shopRow" id="shopRoll-The-DiceRow">
+                <p class="shopItemName" id="shopRoll-The-DiceName">Roll The Dice | Lv. 0</p>
+                <p class="shopItemDesc" id="shopRoll-The-DiceDesc">...</p>
+                <button class="shopItemBtn" id="shopRoll-The-DiceBtn">$...</button>
             </div>
 
-            <div class="shopRow">
-                <p class="shopItemName">Replicator | Lv. 1</p>
-                <p class="shopItemPrice">$10</p>
-                <p class="shopItemDesc">Gain 0 -> 1% of your score from every player click</p>
-            </div>
-            
-            <div class="shopRow">
-                <p class="shopItemName">Spotlight | Lv. 1</p>
-                <p class="shopItemPrice">$10</p>
-                <p class="shopItemDesc">Highlights the lowest square on the board after N/A -> 10s without a move</p>
+            <div class="shopRow" id="shopComboCumulateRow">
+                <p class="shopItemName" id="shopComboCumulateName">ComboCumulate | Lv. 0</p>
+                <p class="shopItemDesc" id="shopComboCumulateDesc">...</p>
+                <button class="shopItemBtn" id="shopComboCumulateBtn">$...</button>
             </div>
 
-            <div class="shopRow">
-                <p class="shopItemName">Roll The Dice | Lv. 1</p>
-                <p class="shopItemPrice">$10</p>
-                <p class="shopItemDesc">0 -> 1/100 chance to gain x100 score from a cell</p>
+            <div class="shopRow" id="shopOverkillRow">
+                <p class="shopItemName" id="shopOverkillName">Overkill | Lv. 0</p>
+                <p class="shopItemDesc" id="shopOverkillDesc">...</p>
+                <button class="shopItemBtn" id="shopOverkillBtn">$...</button>
             </div>
 
-            <div class="shopRow">
-                <p class="shopItemName">Ottopilot | Lv. 1</p>
-                <p class="shopItemPrice">$10</p>
-                <p class="shopItemDesc">Automatically move after N/A -> 10s without a move</p>
-            </div>
-            
-            <div class="shopRow">
-                <p class="shopItemName">Overkill | Lv. 1</p>
-                <p class="shopItemPrice">$10</p>
-                <p class="shopItemDesc">Cells reward a minimum of 0 -> 10% of your score</p>
+            <div class="shopRow" id="shopUndying-LightRow">
+                <p class="shopItemName" id="shopUndying-LightName">Undying Light | Lv. 0</p>
+                <p class="shopItemDesc" id="shopUndying-LightDesc">...</p>
+                <button class="shopItemBtn" id="shopUndying-LightBtn">$...</button>
             </div>
 
-            <div class="shopRow">
-                <p class="shopItemName">You Win | Lv. 1</p>
-                <p class="shopItemPrice">$1111end</p>
-                <p class="shopItemDesc">Stop the playtime timer & complete the game</p>
+            <div class="shopRow" id="shopFreebieRow">
+                <p class="shopItemName" id="shopFreebieName">Freebie | Lv. 0</p>
+                <p class="shopItemDesc" id="shopFreebieDesc">...</p>
+                <button class="shopItemBtn" id="shopFreebieBtn">$...</button>
             </div>
-        -->
 
+            <div class="shopRow" id="shopYou-WinRow">
+                <p class="shopItemName" id="shopYou-WinName">You Win | Lv. 0</p>
+                <p class="shopItemDesc" id="shopYou-WinDesc">...</p>
+                <button class="shopItemBtn" id="shopYou-WinBtn">$...</button>
+            </div>
         </div>
     </main>
 
