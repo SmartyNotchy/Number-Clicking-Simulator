@@ -10,4 +10,4 @@ Gameplay Features:
 
 Play now at [TODO: INSERT LINK HERE]
 
-![Invigorating Gameplay](gameplay.png)
+![Invigorating Gameplay](assets/gameplay.png)
