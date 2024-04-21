@@ -6,6 +6,12 @@ function moveToCell(row, col) {
                                     Math.round(cellWidth * (row - 2)) + "px) translateY(" + Math.round(cellWidth * (col - 2)) + "px)";
 }
 
+function calcPercent(num, perc) {
+    let temp = num * perc;
+    temp /= 100n;
+    return temp;
+}
+
 const alphabet = "abcdefghijklmnopqrstuvwxyz"
 function abbreviateNum(num) {
     let numStr = String(num);
@@ -74,6 +80,22 @@ function shuffle(array) {
 
 
 
+function revealShopLogic(price, score) {
+    let gap = 1n;
+    if (score <= unabbreviateNum("1e")) {
+        gap = 1000n;
+    } else if (score <= unabbreviateNum("1z")) {
+        gap = 1000000000000n;
+    } else if (score <= unabbreviateNum("1za")) {
+        gap = unabbreviateNum("1z");
+    } else if (score <= unabbreviateNum("1caa")) {
+        gap = unabbreviateNum("1ga");
+    } else {
+        gap = unabbreviateNum("1fck");
+    }
+
+    return price / score <= gap;
+}
 
 class ShopItem {
     constructor(lvl, name, tiers, desc, maxDesc) {
@@ -85,7 +107,7 @@ class ShopItem {
     }
 
     updateRow(gameObj) {
-        if (unabbreviateNum(this.tiers[0][0]) / gameObj.score <= 1000000000n) {
+        if (revealShopLogic(unabbreviateNum(this.tiers[0][0]), gameObj.score)) {
             document.getElementById("shop" + this.name.replace(/ /g, "-") + "Row").style.display = "inline-block";
         }
         document.getElementById("shop" + this.name.replace(/ /g, "-") + "Name").innerHTML = this.getName();
@@ -133,8 +155,8 @@ class ShopItem {
 
 class GameManager {
     constructor() {
-        this.score = 2n;
-        this.money = 0n;
+        this.score = 20000000000n;
+        this.money = 20000000000n;
         this.grid = [
             1n, 1n, 1n, 1n, 1n,
             1n, 1n, 1n, 1n, 1n,
@@ -148,27 +170,59 @@ class GameManager {
 
         this.btnSpeed = 2000;
         this.clearBonus = 0n;
+        this.comboTimer = 0;
+        this.comboLostInRow = 0;
+        this.comboBonus = 0n;
+        this.comboLevel = 0;
+
         this.shop = [
             new ShopItem(0, "Speed",
                 [
-                    ["8", 2],
-                    ["1000", 1.5],
-                    ["10b", 1.45],
-                    ["10c", 1.4],
-                    ["10d", 1.35],
-                    ["10e", 1.3],
-                    [undefined, 1]
+                    ["8", 1.5],
+                    ["1000", 1.25],
+                    ["10b", 1],
+                    ["10c", 0.75],
+                    ["10d", 0.5],
+                    ["10e", 0.4],
+                    ["10f", 0.35],
+                    ["10i", 0.3],
+                    ["10k", 0.25],
+                    ["10n", 0.2],
+                    ["10z", 0.15],
+                    ["10zz", 0.1]
                 ],
-            "Traveling between cells takes<br>${0} -> ${1} s",
-            "Traveling between cells takes ${0} s"),
+            "Traveling between cells takes<br>${0} -> ${1}s",
+            "Traveling between cells takes ${0}s"),
 
             new ShopItem(0, "Clear Bonus",
                 [
                     ["12", 0n],
-                    [undefined, 10n],
+                    ["2000", 10n],
+                    ["10b", 20n],
+                    ["100c", 30n],
+                    ["10e", 40n],
+                    ["10h", 50n],
+                    ["10k", 60n],
                 ],
             "Gain ${0}% -> ${1}% of your score when clearing a board",
-            "Gain ${0}% of your score when clearing a board")
+            "Gain ${0}% of your score when clearing a board"),
+
+            new ShopItem(0, "Combo",
+                [
+                    ["10b", 0n],
+                    [undefined, 20n],
+                ],
+            "Successful clicks in rapid succession earn up to<br> ${0}% -> ${1}% more points",
+            "Successful clicks in rapid succession earn up to ${0}% more points"),
+
+            new ShopItem(0, "Accumulator",
+                [
+                    ["10e", 0n],
+                    ["10f", 1n],
+                    [undefined, 2n]
+                ],
+            "Gain ${0}% -> ${1}% of your score every second",
+            "Gain ${0}% of your score every second")
         ]
     }
 
@@ -185,6 +239,42 @@ class GameManager {
         document.getElementById("playerBtn").style.transition = "transform " + this.btnSpeed + "ms ease-in-out";
 
         this.clearBonus = this.shop[1].getEffect();
+
+        this.comboBonus = this.shop[2].getEffect() / 10n;
+        if (this.comboBonus != 0) {
+            document.getElementById("comboText").style.visibility = "visible";
+            document.getElementById("comboBar").style.visibility = "visible";
+        }
+    }
+
+    updateCombo() {
+        if (this.comboLevel != 0) {
+            let timeouts = [0, 1000, 1000, 1000, 750, 750, 600, 600, 500, 500, 400];
+            let currentTime = Date.now();
+            if ((this.comboLostInRow == 0 && currentTime - this.comboTimer > timeouts[this.comboLevel]) ||
+                (this.comboLostInRow > 0 && currentTime - this.comboTimer > 125)) {
+                this.comboLevel -= 1;
+                this.comboTimer = currentTime;
+                this.comboLostInRow += 1;
+            }
+        }
+        
+
+        let playerBtn = document.getElementById("playerBtn");
+        for (let i = 1; i <= 10; i++) {
+            let bar = document.getElementById("cmb" + i);
+            if (i <= this.comboLevel) {
+                bar.classList.add("cmbOn");
+            } else {
+                bar.classList.remove("cmbOn");
+            }
+
+            if (i == this.comboLevel) {
+                playerBtn.classList.add("cmb" + i + "bdr");
+            } else {
+                playerBtn.classList.remove("cmb" + i + "bdr")
+            }
+        }
     }
 
     processClick(id) {
@@ -207,6 +297,25 @@ class GameManager {
     consumeCell(id) {
         if (this.grid[id] < this.score) {
             this.score += this.grid[id];
+
+            if (this.comboBonus != 0 && this.grid[id] != 0n) {
+                this.score += calcPercent(this.grid[id], this.comboBonus * BigInt(this.comboLevel));
+                this.comboLostInRow = 0;
+                this.comboLevel += 1;
+                if (this.comboLevel > 10) {
+                    this.comboLevel = 10
+                }
+                this.comboTimer = Date.now();
+                
+                let bar = document.getElementById("cmb" + this.comboLevel);
+                this.updateCombo();
+                bar.classList.add('pulse');
+                // After a short delay, remove the pulse class to return to normal size
+                setTimeout(() => {
+                    bar.classList.remove('pulse');
+                }, 50);
+            }
+
             this.money += this.grid[id];
             this.grid[id] = 0n;
             this.updateBoard();
@@ -220,15 +329,15 @@ class GameManager {
                 moveToCell(2, 2);
                 this.loc = 12;
 
-                let temp = this.score * this.clearBonus;
-                temp = temp / 100n;
-                this.score += temp;
+                this.score += calcPercent(this.score, this.clearBonus);
                 setTimeout(function() {
                     GAME_MANAGER.generateBoard();
                 }, this.btnSpeed);
             }
         } else {
             this.lastClick = Date.now();
+            this.comboLevel = 0;
+            this.comboLostInRow = 0;
             moveToCell(this.loc % 5, Math.floor(this.loc / 5));
         }
     }
@@ -304,3 +413,13 @@ GAME_MANAGER.updateBoard();
 GAME_MANAGER.updateHUD();
 GAME_MANAGER.updateShop();
 GAME_MANAGER.applyShop();
+
+// Gameloop
+setInterval(function() {
+    // Combo Bar
+    GAME_MANAGER.updateCombo();
+
+    // Accumulator
+    
+    // Playtime
+}, 25);

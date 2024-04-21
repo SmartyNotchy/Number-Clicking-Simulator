@@ -67,18 +67,30 @@
         <div id="scoreHUD">
             <p id="scoreText">Score: ...</p>
             <p id="cashText">$...</p>
-            <p id="statsTextHeader">Stats</p>
-            <p id="clearsText">Boards Cleared: ...</p>
-            <p id="playtimeText">Playtime: ...</p>
-            <p id="clicksText">Clicks: ...</p>
-            <p id="comboText">Highest Combo: ...</p>
+
+            <p id="comboText">Combo</p>
+
+            <div id="comboBar">
+                <div class="comboRect" id="cmb1"></div>
+                <div class="comboRect" id="cmb2"></div>
+                <div class="comboRect" id="cmb3"></div>
+                <div class="comboRect" id="cmb4"></div>
+                <div class="comboRect" id="cmb5"></div>
+                <div class="comboRect" id="cmb6"></div>
+                <div class="comboRect" id="cmb7"></div>
+                <div class="comboRect" id="cmb8"></div>
+                <div class="comboRect" id="cmb9"></div>
+                <div class="comboRect" id="cmb10"></div>
+            </div>
+            <p id="playtimeHeader">Time Since Start:</p>
+            <p id="playtimeText">0h 0m 0s</p>
         </div>
 
         <div id="shopDisplay">
             <div class="shopRow" id="shopSpeedRow">
                 <p class="shopItemName" id="shopSpeedName">Speed | Lv. 0</p>
-                <p class="shopItemDesc" id="shopSpeedDesc">Travelling between cells takes _ -> _ s</p>
-                <button class="shopItemBtn" id="shopSpeedBtn">$10</button>
+                <p class="shopItemDesc" id="shopSpeedDesc">...</p>
+                <button class="shopItemBtn" id="shopSpeedBtn">$...</button>
             </div>
 
             <div class="shopRow" id="shopClear-BonusRow">
@@ -86,15 +98,20 @@
                 <p class="shopItemDesc" id="shopClear-BonusDesc">...</p>
                 <button class="shopItemBtn" id="shopClear-BonusBtn">$...</button>
             </div>
-
-            <!--
             
-
-            <div class="shopRow">
-                <p class="shopItemName">Combo | Lv. 1</p>
-                <p class="shopItemPrice">$10</p>
-                <p class="shopItemDesc">Every additional click within 1s of the last grants +0% -> +25% score</p>
+            <div class="shopRow" id="shopComboRow">
+                <p class="shopItemName" id="shopComboName">Combo | Lv. 0</p>
+                <p class="shopItemDesc" id="shopComboDesc">...</p>
+                <button class="shopItemBtn" id="shopComboBtn">$...</button>
             </div>
+
+            <div class="shopRow" id="shopAccumulatorRow">
+                <p class="shopItemName" id="shopAccumulatorName">Accumulator | Lv. 0</p>
+                <p class="shopItemDesc" id="shopAccumulatorDesc">...</p>
+                <button class="shopItemBtn" id="shopAccumulatorBtn">$...</button>
+            </div>
+            <!--
+        
 
             <div class="shopRow">
                 <p class="shopItemName">Accumulator | Lv. 1</p>

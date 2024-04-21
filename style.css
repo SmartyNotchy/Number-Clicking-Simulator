@@ -48,14 +48,15 @@ body {
     width: 90%;
     height: 90%;
 
-    border-radius: 10000px;
-    border: 3px solid black;
+    border-radius: 50%;
+    border: 5px solid transparent;
     font-size: 25px;
     background-color: lightgrey;
     transition: transform 2000ms ease-in-out;
 
     z-index: 2;
 }
+
 
 
 
@@ -81,21 +82,117 @@ body {
     margin-top: -20px;
 }
 
-#statsTextHeader {
-    font-size: 25px;
+#comboText {
+    font-size: 22px;
     margin-left: 30px;
-    margin-top: 200px;
+    margin-top: 60px;
+    visibility: hidden;
 }
 
-#clearsText {
-    font-size: 16px;
+#comboBar {
+    width: 240px;
+    height: 30px;
     margin-left: 30px;
+    margin-top: -15px;
+    position: relative;
+    visibility: hidden;
+}
+
+.comboRect {
+    width: 14px; /* 10% width for each rectangle with 5px gap on each side */
+    height: 30px;
+    background-color: lightgrey;
+    display: inline-block;
+    transition: transform 0.1s linear;
+}
+
+.comboRect:last-child {
+    margin-right: 0; /* Remove margin from the last rectangle to avoid extra gap */
+}
+
+.comboRect.pulse {
+    transition: transform 0s linear !important;
+    transform: scale(1.4);
+}
+
+#cmb1.cmbOn {
+    background-color: red;
+}
+
+#cmb2.cmbOn {
+    background-color: red;
+}
+
+#cmb3.cmbOn {
+    background-color: red;
+}
+
+#cmb4.cmbOn {
+    background-color: orange;
+}
+
+#cmb5.cmbOn {
+    background-color: orange;
+}
+
+#cmb6.cmbOn {
+    background-color: gold
+}
+
+#cmb7.cmbOn {
+    background-color: gold
+}
+
+#cmb8.cmbOn {
+    background-color: #33cc33
+}
+
+#cmb9.cmbOn {
+    background-color: #33cc33
+}
+
+#cmb10.cmbOn {
+    background-color: #3399ff;
+}
+
+.cmb1bdr {
+    border-image: conic-gradient(
+        red 0deg 36deg
+    ) 1;
+}
+
+.cmb2bdr {
+    border-image: conic-gradient(
+        red 0deg 72deg
+    ) 1;
+}
+
+.cmb3bdr {
+    border-image: conic-gradient(
+        red 0deg 108deg
+    ) 1;
+}
+
+.cmb4bdr {
+    border-image: conic-gradient(
+        orange 0deg 144deg
+    ) 1;
+}
+
+
+
+
+
+#playtimeHeader {
+    font-size: 20px;
+    margin-left: 30px;
+    margin-top: 200px;
 }
 
 #playtimeText {
     font-size: 16px;
     margin-left: 30px;
-    margin-top: -10px;
+    margin-top: -12px;
 }
 
 #shopDisplay {
