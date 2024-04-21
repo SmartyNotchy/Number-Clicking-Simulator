@@ -1,9 +1,15 @@
 function moveToCell(row, col) {
     let cellWidth = document.getElementById("testTD").offsetWidth;
     let playerButton = document.getElementById("playerBtn");
+    let playerButtonBG = document.getElementById("playerBtnBG");
 
     playerButton.style.transform = "translate(-50%, -50%) translateX(" + 
                                     Math.round(cellWidth * (row - 2)) + "px) translateY(" + Math.round(cellWidth * (col - 2)) + "px)";
+    playerButtonBG.style.transform = "translate(-50%, -50%) translateX(" + 
+                                    Math.round(cellWidth * (row - 2)) + "px) translateY(" + Math.round(cellWidth * (col - 2)) + "px)";
+    playerButtonBG.style.setProperty("--x", Math.round(cellWidth * (row - 2)) + "px");
+    playerButtonBG.style.setProperty("--y", Math.round(cellWidth * (col - 2)) + "px");
+
 }
 
 function calcPercent(num, perc) {
@@ -155,14 +161,14 @@ class ShopItem {
 
 class GameManager {
     constructor() {
-        this.score = 20000000000n;
-        this.money = 20000000000n;
+        this.score = 2n;
+        this.money = 0n;
         this.grid = [
             1n, 1n, 1n, 1n, 1n,
             1n, 1n, 1n, 1n, 1n,
             1n, 1n, 0n, 1n, 1n,
             1n, 1n, 1n, 1n, 1n,
-            1n, 1n, 1n, 1n, 1n
+            10n, 20n, 30n, 40n, 50n
         ];
         
         this.lastClick = 0;
@@ -178,8 +184,8 @@ class GameManager {
         this.shop = [
             new ShopItem(0, "Speed",
                 [
-                    ["8", 1.5],
-                    ["1000", 1.25],
+                    ["5", 1.5],
+                    ["100", 1.25],
                     ["10b", 1],
                     ["10c", 0.75],
                     ["10d", 0.5],
@@ -196,7 +202,7 @@ class GameManager {
 
             new ShopItem(0, "Clear Bonus",
                 [
-                    ["12", 0n],
+                    ["20", 0n],
                     ["2000", 10n],
                     ["10b", 20n],
                     ["100c", 30n],
@@ -210,7 +216,17 @@ class GameManager {
             new ShopItem(0, "Combo",
                 [
                     ["10b", 0n],
-                    [undefined, 20n],
+                    ["10c", 20n],
+                    ["10d", 40n],
+                    ["10e", 60n],
+                    ["10f", 80n],
+                    ["10g", 100n],
+                    ["10k", 200n],
+                    ["10q", 400n],
+                    ["10z", 800n],
+                    ["10cc", 1600n],
+                    ["10zz", 3200n],
+                    ["10cmb", 6400n]
                 ],
             "Successful clicks in rapid succession earn up to<br> ${0}% -> ${1}% more points",
             "Successful clicks in rapid succession earn up to ${0}% more points"),
@@ -237,6 +253,7 @@ class GameManager {
     applyShop() {
         this.btnSpeed = this.shop[0].getEffect() * 1000;
         document.getElementById("playerBtn").style.transition = "transform " + this.btnSpeed + "ms ease-in-out";
+        document.getElementById("playerBtnBG").style.transition = "transform " + this.btnSpeed + "ms ease-in-out";
 
         this.clearBonus = this.shop[1].getEffect();
 
@@ -256,11 +273,14 @@ class GameManager {
                 this.comboLevel -= 1;
                 this.comboTimer = currentTime;
                 this.comboLostInRow += 1;
+
+                this.btnSpeed = this.shop[0].getEffect() * 1000;
+                document.getElementById("playerBtn").style.transition = "transform " + this.btnSpeed + "ms ease-in-out";
             }
         }
         
 
-        let playerBtn = document.getElementById("playerBtn");
+        let playerBtnBG = document.getElementById("playerBtnBG");
         for (let i = 1; i <= 10; i++) {
             let bar = document.getElementById("cmb" + i);
             if (i <= this.comboLevel) {
@@ -270,9 +290,9 @@ class GameManager {
             }
 
             if (i == this.comboLevel) {
-                playerBtn.classList.add("cmb" + i + "bdr");
+                playerBtnBG.classList.add("cmb" + i + "bg");
             } else {
-                playerBtn.classList.remove("cmb" + i + "bdr")
+                playerBtnBG.classList.remove("cmb" + i + "bg")
             }
         }
     }
@@ -302,8 +322,10 @@ class GameManager {
                 this.score += calcPercent(this.grid[id], this.comboBonus * BigInt(this.comboLevel));
                 this.comboLostInRow = 0;
                 this.comboLevel += 1;
-                if (this.comboLevel > 10) {
-                    this.comboLevel = 10
+                if (this.comboLevel >= 10) {
+                    this.comboLevel = 10;
+                    this.btnSpeed = 0;
+                    document.getElementById("playerBtn").style.transition = "transform " + this.btnSpeed + "ms ease-in-out";
                 }
                 this.comboTimer = Date.now();
                 
@@ -338,6 +360,8 @@ class GameManager {
             this.lastClick = Date.now();
             this.comboLevel = 0;
             this.comboLostInRow = 0;
+            this.btnSpeed = this.shop[0].getEffect() * 1000;
+            document.getElementById("playerBtn").style.transition = "transform " + this.btnSpeed + "ms ease-in-out";
             moveToCell(this.loc % 5, Math.floor(this.loc / 5));
         }
     }

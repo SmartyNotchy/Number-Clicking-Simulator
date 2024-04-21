@@ -45,11 +45,12 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
-    height: 90%;
+    width: 83%;
+    height: 83%;
 
     border-radius: 50%;
-    border: 5px solid transparent;
+    border: none;
+
     font-size: 25px;
     background-color: lightgrey;
     transition: transform 2000ms ease-in-out;
@@ -57,8 +58,105 @@ body {
     z-index: 2;
 }
 
+#playerBtnBG {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
 
+    border-radius: 50%;
+    border: none;
+    
+    background-image: none;
+    transition: transform 2000ms ease-in-out;
 
+    z-index: 1;
+
+    --x: 0px;
+    --y: 0px;
+}
+
+#playerBtnBG.cmb1bg {
+    background-image: conic-gradient(
+        red 0deg 36deg,
+        #00000000 36deg 360deg
+    );
+}
+
+#playerBtnBG.cmb2bg {
+    background-image: conic-gradient(
+        red 0deg 72deg,
+        #00000000 72deg 360deg
+    );
+}
+
+#playerBtnBG.cmb3bg {
+    background-image: conic-gradient(
+        red 0deg 108deg,
+        #00000000 108deg 360deg
+    );
+}
+
+#playerBtnBG.cmb4bg {
+    background-image: conic-gradient(
+        orange 0deg 144deg,
+        #00000000 144deg 360deg
+    );
+}
+
+#playerBtnBG.cmb5bg {
+    background-image: conic-gradient(
+        orange 0deg 180deg,
+        #00000000 180deg 360deg
+    );
+}
+
+#playerBtnBG.cmb6bg {
+    background-image: conic-gradient(
+        gold 0deg 216deg,
+        #00000000 216deg 360deg
+    );
+}
+
+#playerBtnBG.cmb7bg {
+    background-image: conic-gradient(
+        gold 0deg 252deg,
+        #00000000 252deg 360deg
+    );
+}
+
+#playerBtnBG.cmb8bg {
+    background-image: conic-gradient(
+        #33cc33 0deg 288deg,
+        #00000000 288deg 360deg
+    );
+}
+
+#playerBtnBG.cmb9bg {
+    background-image: conic-gradient(
+        #33cc33 0deg 324deg,
+        #00000000 324deg 360deg
+    );
+}
+
+#playerBtnBG.cmb10bg {
+    background-image: conic-gradient(
+        red, orange, gold, #33cc33, #3399ff, #9966ff, #ff3399, red
+    );
+
+    animation: rotate 0.3s infinite linear; /* Apply the rotate animation */
+}
+
+@keyframes rotate {
+    from {
+        transform: translate(-50%, -50%) translateX(var(--x)) translateY(var(--y)) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) translateX(var(--x)) translateY(var(--y)) rotate(360deg);
+    }
+}
 
 #scoreHUD {
     position: absolute;
@@ -154,32 +252,6 @@ body {
 #cmb10.cmbOn {
     background-color: #3399ff;
 }
-
-.cmb1bdr {
-    border-image: conic-gradient(
-        red 0deg 36deg
-    ) 1;
-}
-
-.cmb2bdr {
-    border-image: conic-gradient(
-        red 0deg 72deg
-    ) 1;
-}
-
-.cmb3bdr {
-    border-image: conic-gradient(
-        red 0deg 108deg
-    ) 1;
-}
-
-.cmb4bdr {
-    border-image: conic-gradient(
-        orange 0deg 144deg
-    ) 1;
-}
-
-
 
 
 
